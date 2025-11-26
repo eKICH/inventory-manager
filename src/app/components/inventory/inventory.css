@@ -1,0 +1,15 @@
+.add {
+    display: flex;
+    justify-content: end;
+}
+
+button {
+    margin-top: 20px;
+    margin-right: 50px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: brown;
+    color: #fff;
+}

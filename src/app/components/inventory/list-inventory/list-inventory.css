@@ -1,0 +1,47 @@
+.inventory-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.grid {
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 10px 8px;
+}
+
+.inventory {
+    max-width: 100%;
+    border-collapse: collapse;
+}
+
+thead>th {
+    height: 50px;
+    border-bottom: 1px solid gray;
+    text-align: left;
+}
+
+tr {
+    height: 40px;
+    border-bottom: 1px dashed gray;
+    font-weight: 300;
+}
+
+tr:last-child {
+    border-bottom: none;
+}
+
+th,
+td {
+    padding-right: 15px;
+}
+
+.action {
+    display: flex;
+    gap: 5px;
+}
+
+.action a {
+    text-decoration: none;
+    color: brown;
+}
