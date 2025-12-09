@@ -1,52 +1,84 @@
 <div class="back" (click)="goBack()">&#8592;</div>
 <section class="add-inventory-container">
-    <h3>Add Inventory</h3>
-    <form>
+    <h3>{{ !isEditMode() ? 'Add Inventory' : 'Edit Inventory' }}</h3>
+    <form [formGroup]="inventoryForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <div class="form-control">
                 <label for="name">Name</label>
-                <input type="text" name="name" id="name" placeholder="Product Name">
+                <input type="text" name="name" id="name" placeholder="Product Name" formControlName="name">
+                @if (isInvalid('name')) {
+                    @if (inventoryForm.get('name')?.errors?.['required']) {
+                        <span class="control-error">Name is required!</span>
+                    }
+                }
             </div>
 
             <div class="form-control">
                 <label for="decription">Description</label>
-                <textarea name="description" id="description" placeholder="Description" rows="4" cols="50"></textarea>
+                <textarea name="description" id="description" placeholder="Description" rows="4" cols="50" formControlName="description"></textarea>
+                 @if (isInvalid('description')) {
+                    @if (inventoryForm.get('description')?.errors?.['required']) {
+                        <span class="control-error">Description is required!</span>
+                    }
+                }
             </div>
 
             <div class="form-control">
                 <label for="category">Category</label>
-                <input type="text" name="category" id="category" placeholder="Category">
+                <input type="text" name="category" id="category" placeholder="Category" formControlName="category">
+                 @if (isInvalid('category')) {
+                    @if (inventoryForm.get('category')?.errors?.['required']) {
+                        <span class="control-error">Category is required!</span>
+                    }
+                }
             </div>
 
             <div class="form-control">
                 <label for="status">Status</label>
-                <select name="status" id="status">
-                    <option value="">---Select Status---</option>
+                <select name="status" id="status" formControlName="status">
+                    <option value="">Select Status</option>
                     <option value="available">Available</option>
                     <option value="unavailable">UnAvailable</option>
                 </select>
+                 @if (isInvalid('status')) {
+                    @if (inventoryForm.get('status')?.errors?.['required']) {
+                        <span class="control-error">Status is required!</span>
+                    }
+                }
             </div>
 
             <div class="form-control">
                 <label for="price">Price</label>
-                <input type="text" name="price" id="price" placeholder="Product Price">
+                <input type="text" name="price" id="price" placeholder="Product Price" formControlName="price">
+                 @if (isInvalid('price')) {
+                    @if (inventoryForm.get('price')?.errors?.['required']) {
+                        <span class="control-error">Price is required!</span>
+                    }
+                }
             </div>
 
             <div class="form-control">
                 <label for="discount">Discount</label>
-                <input type="text" name="discount" id="discount" placeholder="Product Discount">
+                <input type="text" name="discount" id="discount" placeholder="Product Discount" formControlName="discount">
             </div>
 
             <div class="form-control">
                 <label for="items">Items</label>
-                <input type="text" name="items" id="items" placeholder="Items In-Stock">
+                <input type="text" name="items" id="items" placeholder="Items In-Stock" formControlName="items">
+                 @if (isInvalid('items')) {
+                    @if (inventoryForm.get('items')?.errors?.['required']) {
+                        <span class="control-error">Items is required!</span>
+                    }
+                }
             </div>
         </div>
 
         <div class="form-group">
             <div class="action-controls">
-                <button class="reset">Reset</button>
-                <button class="save">Save</button>
+                <button class="save">{{ !isEditMode() ? 'Save' : 'Update' }}</button>
+                @if (inventoryForm.dirty && !isEditMode()) {
+                    <button type="reset" class="reset">Reset</button>
+                }
             </div>
 
         </div>

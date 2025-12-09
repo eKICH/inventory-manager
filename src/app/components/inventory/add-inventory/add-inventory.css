@@ -10,6 +10,10 @@
     cursor: pointer;
 }
 
+.back:hover {
+    background-color: whitesmoke;
+}
+
 .add-inventory-container {
     display: flex;
     flex-direction: column;
@@ -77,4 +81,12 @@ textarea {
     background: transparent;
     border: 1px solid red;
     color: red;
+}
+
+.control-error {
+    color: red;
+    margin-top: -8px;
+    margin-bottom: 5px;
+    font-size: small;
+    text-align: right;
 }

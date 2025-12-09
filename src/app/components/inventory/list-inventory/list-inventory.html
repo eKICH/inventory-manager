@@ -10,67 +10,24 @@
                 <th>Price</th>
                 <th>Action</th>
             </thead>
-
-            <tr>
-                <td>10-09-2025</td>
-                <td>Jiksu Motor</td>
-                <td>This is a motor</td>
-                <td>Engine</td>
-                <td>Available</td>
-                <td>$1500</td>
+            @for (inv of inventory(); track inv.id) {
+                <tr>
+                <td>{{ inv.createDate }}</td>
+                <td>{{ inv.name }}</td>
+                <td>{{ inv.description }}</td>
+                <td>{{ inv.category }}</td>
+                <td>{{ inv.status }}</td>
+                <td>{{ inv.price }}</td>
                 <td>
                     <div class="action">
-                        <a href="#">View</a> |
-                        <a href="#">Edit</a> |
-                        <a href="#">Delete</a>
+                        <a>View</a> |
+                        <a (click)="onInventoryEdit(inv.id)">Edit</a> |
+                        <a>Delete</a>
                     </div>
                 </td>
             </tr>
-            <tr>
-                <td>10-09-2025</td>
-                <td>Jiksu Motor</td>
-                <td>This is a motor</td>
-                <td>Engine</td>
-                <td>Available</td>
-                <td>$1500</td>
-                <td>
-                    <div class="action">
-                        <a href="#">View</a> |
-                        <a href="#">Edit</a> |
-                        <a href="#">Delete</a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>10-09-2025</td>
-                <td>Jiksu Motor</td>
-                <td>This is a motor</td>
-                <td>Engine</td>
-                <td>Available</td>
-                <td>$1500</td>
-                <td>
-                    <div class="action">
-                        <a href="#">View</a> |
-                        <a href="#">Edit</a> |
-                        <a href="#">Delete</a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>10-09-2025</td>
-                <td>Jiksu Motor</td>
-                <td>This is a motor</td>
-                <td>Engine</td>
-                <td>Available</td>
-                <td>$1500</td>
-                <td>
-                    <div class="action">
-                        <a href="#">View</a> |
-                        <a href="#">Edit</a> |
-                        <a href="#">Delete</a>
-                    </div>
-                </td>
-            </tr>
+            }
+            
 
         </table>
     </div>

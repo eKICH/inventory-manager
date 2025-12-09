@@ -44,4 +44,5 @@ td {
 .action a {
     text-decoration: none;
     color: brown;
+    cursor: pointer;
 }

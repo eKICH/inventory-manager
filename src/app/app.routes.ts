@@ -6,4 +6,5 @@ export const routes: Routes = [
     {path: 'inventory', component: Inventory, title: 'Inventory'},
     {path: '', redirectTo: 'inventory', pathMatch: 'full'},
     {path: 'add-inventory', component: AddInventory},
+    {path: ':id/edit-inventory', component: AddInventory},
 ];
