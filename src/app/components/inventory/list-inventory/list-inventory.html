@@ -1,5 +1,19 @@
+@let inventory = inventory$ | async;
+@let isLoading = loading$ | async;
+@let error = error$ | async;
+
+
 <section class="inventory-container">
-    <div class="grid">
+    @if (isLoading) {
+    <div>Loading Inventory... </div>
+    }
+
+    @if (error) {
+    <div>Error: {{error}} </div>
+    }
+
+    @if (inventory && !isLoading && !error) {
+        <div class="grid">
         <table class="inventory">
             <thead>
                 <th>Create Date</th>
@@ -10,9 +24,10 @@
                 <th>Price</th>
                 <th>Action</th>
             </thead>
-            @for (inv of inventory(); track inv.id) {
-                <tr>
-                <td>{{ inv.createDate }}</td>
+
+            @for (inv of inventory; track inv.id) {
+            <tr>
+                <td>{{ inv.createAt }}</td>
                 <td>{{ inv.name }}</td>
                 <td>{{ inv.description }}</td>
                 <td>{{ inv.category }}</td>
@@ -20,15 +35,19 @@
                 <td>{{ inv.price }}</td>
                 <td>
                     <div class="action">
-                        <a>View</a> |
-                        <a (click)="onInventoryEdit(inv.id)">Edit</a> |
-                        <a>Delete</a>
+                        <a (click)="onViewInventory(inv.id!, inv.name!.toLowerCase())">View</a> |
+                        <a (click)="onInventoryEdit(inv.id!)">Edit</a> |
+                        <a (click)="onDeleteInventory(inv.id!)">Delete</a>
                     </div>
                 </td>
             </tr>
             }
-            
 
         </table>
     </div>
+    } @else if (!isLoading && !error) {
+        <p>No inventory are available at this time..</p>
+    }
+
+    
 </section>

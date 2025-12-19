@@ -8,3 +8,19 @@
 html, body {
     font-family: sans-serif;
 }
+
+.back {
+    width: 50px;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-left: 50px;
+    background-color: transparent;
+    color: #000;
+    border: 1px solid #000;
+    text-align: center;
+    cursor: pointer;
+}
+
+.back:hover {
+    background-color: whitesmoke;
+}

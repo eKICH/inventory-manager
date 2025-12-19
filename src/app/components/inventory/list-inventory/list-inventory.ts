@@ -1,44 +1,52 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
+import { _Inventory } from '../../model/inventory.model';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { InventoryState } from '../state/inventory.state';
+import * as InventorySelectors from '../state/inventory.selectors';
+import * as InventoryActions from '../state/inventory.actions';
+
 
 @Component({
   selector: 'app-list-inventory',
-  imports: [],
+  imports: [AsyncPipe],
   templateUrl: './list-inventory.html',
   styleUrl: './list-inventory.css',
 })
-export class ListInventory {
+export class ListInventory implements OnInit {
 
-  route: Router = inject(Router);
+  private store = inject(Store<InventoryState>)
 
-  inventory = signal([
-    {
-      id: 1, 
-      createDate: '10-09-2025', 
-      name: 'Jiksu Motor',
-      description: 'This is a motor',
-      category: 'Engine',
-      status: 'Available',
-      price: 150.00,
-      discount: '8%',
-      items: 50
-    },
-    {
-      id: 2, 
-      createDate: '10-09-2025', 
-      name: 'Honda Motor',
-      description: 'This is a motor',
-      category: 'Engine',
-      status: 'Available',
-      price: 250.00,
-      discount: '5%',
-      items: 100
-    }
-  ]);
+  private route: Router = inject(Router);
+
+  inventory$: Observable<_Inventory[]> = this.store.select(InventorySelectors.selectInventory);
+  loading$: Observable<boolean> = this.store.select(InventorySelectors.selectInventoryLoading);
+  error$: Observable<string | null> = this.store.select(InventorySelectors.selectInventoryError);
+
+
+  ngOnInit() {
+
+    this.store.dispatch(InventoryActions.loadInventory());
+
+  }
+
+  onViewInventory( id: number, name: string ) {
+    console.log(id);
+    this.route.navigate([`/${id}/${name}`]);
+  }
 
   onInventoryEdit(id: number) {
     console.log("edit clicked!")
     this.route.navigate([`/${id}/edit-inventory`]);
+  }
+
+  onDeleteInventory(id: number) {
+    if (!confirm('Are you sure you want to delete this item?')) {
+      return;
+    }
+    this.store.dispatch(InventoryActions.deleteInventory({ id }));
   }
 
 }

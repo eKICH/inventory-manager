@@ -1,6 +1,14 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { _Inventory } from '../../model/inventory.model';
+import { Store } from '@ngrx/store';
+import { InventoryState } from '../state/inventory.state';
+import * as inventoryActions from '../state/inventory.actions';
+import * as InventorySelectors from '../state/inventory.selectors';
+import { filter, map, Observable, take } from 'rxjs';
+import { AsyncPipe, JsonPipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-add-inventory',
@@ -8,25 +16,48 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './add-inventory.html',
   styleUrl: './add-inventory.css',
 })
-export class AddInventory {
-  route: Router = inject(Router);
-  fb = inject(FormBuilder);
-  activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+export class AddInventory implements OnInit {
+
+  private route: Router = inject(Router);
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private fb = inject(FormBuilder);
+  private store = inject(Store<InventoryState>);
+
+  inventory$: Observable<_Inventory[]> = this.store.select(InventorySelectors.selectInventory);
 
   submitted = signal(false);
-  isEditMode = signal(false);
-  invId: string | null = null;
+  invId = toSignal(
+    this.activatedRoute.paramMap.pipe(
+      map(params => params.get('id'))
+    ),
+    { initialValue: null }
+  );
+
+  isEditMode = computed(() => !!this.invId());
+
   inventoryForm!: FormGroup;
 
-  constructor(){
-    this.inventoryFormControls();
 
-    this.invId = this.activatedRoute.snapshot.paramMap.get('id');
-    if(this.invId){
-      this.isEditMode.set(true);
-    }
+  ngOnInit(): void {
+    this.inventoryFormControls();
+    this.loadInventoryForEdit();
+    this.store.dispatch(inventoryActions.loadInventory());
   }
 
+  private loadInventoryForEdit(): void {
+    if (!this.isEditMode()) return;
+
+    this.store
+      .select(InventorySelectors.selectInventoryById(this.invId()!))
+      .pipe(
+        filter(Boolean),
+        take(1)
+      )
+      .subscribe(item => {
+        this.inventoryForm.patchValue(item!)
+      })
+
+  }
 
   inventoryFormControls() {
     this.inventoryForm = this.fb.group({
@@ -34,18 +65,43 @@ export class AddInventory {
       description: ['', Validators.required],
       category: ['', Validators.required],
       status: ['', Validators.required],
-      price: ['', Validators.required],
-      discount: ['', Validators.required],
-      items: ['', Validators.required]
+      price: [0, Validators.required],
+      discount: [0],
+      quantity: [0, Validators.required]
     })
   }
 
-  onSubmit(){
+  onSubmit(): void {
     console.log(this.inventoryForm.value);
     this.submitted.set(true);
 
-    if(this.inventoryForm.invalid) return;
-    
+    if (this.inventoryForm.invalid) return;
+
+    const formValue = this.inventoryForm.value;
+
+    const item: _Inventory = {
+      ...formValue,
+      id: this.invId ?? undefined!
+    };
+
+    if (!this.isEditMode) {
+
+      this.store.dispatch(
+        inventoryActions.createInventory({ item })
+      )
+
+
+    } else {
+      this.store.dispatch(
+        inventoryActions.updateInventory({ item })
+      )
+
+    }
+
+    this.submitted.set(false);
+    this.inventoryForm.reset();
+    this.route.navigate(['/']);
+
   }
 
   isInvalid(controlName: string): boolean {
@@ -57,6 +113,6 @@ export class AddInventory {
     this.route.navigate(['/']);
   }
 
-  
+
 
 }

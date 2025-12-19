@@ -1,0 +1,43 @@
+<div class="back" (click)="goBack()">&#8592;</div>
+<div class="view-inventory-container">
+    <h3>Inventory Details</h3>
+    <div class="items">
+
+        <button class="edit" [routerLink]="['/', inventory()?.id, 'edit-inventory']">Edit</button>
+
+        <div class="view-group">
+            <label>Name</label>
+            <p>{{ inventory()?.name }}</p>
+        </div>
+
+        <div class="view-group">
+            <label>Description</label>
+            <p>{{ inventory()?.description }}</p>
+        </div>
+
+        <div class="view-group">
+            <label>Category</label>
+            <p>{{ inventory()?.category }}</p>
+        </div>
+
+        <div class="view-group">
+            <label>Status</label>
+            <p [ngClass]="inventory()?.status == 'Available' ? 'green' : 'red'">{{ inventory()?.status }}</p>
+        </div>
+
+        <div class="view-group">
+            <label>Price</label>
+            <p>{{ inventory()?.price | currency }}</p>
+        </div>
+
+        <div class="view-group">
+            <label>Discount</label>
+            <p>{{ inventory()?.discount }}</p>
+        </div>
+
+        <div class="view-group">
+            <label>Quantity</label>
+            <p>{{ inventory()?.quantity }}</p>
+        </div>
+    </div>
+</div>

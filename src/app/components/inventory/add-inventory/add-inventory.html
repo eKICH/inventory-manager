@@ -37,8 +37,8 @@
                 <label for="status">Status</label>
                 <select name="status" id="status" formControlName="status">
                     <option value="">Select Status</option>
-                    <option value="available">Available</option>
-                    <option value="unavailable">UnAvailable</option>
+                    <option value="Available">Available</option>
+                    <option value="Unavailable">UnAvailable</option>
                 </select>
                  @if (isInvalid('status')) {
                     @if (inventoryForm.get('status')?.errors?.['required']) {
@@ -63,11 +63,11 @@
             </div>
 
             <div class="form-control">
-                <label for="items">Items</label>
-                <input type="text" name="items" id="items" placeholder="Items In-Stock" formControlName="items">
-                 @if (isInvalid('items')) {
-                    @if (inventoryForm.get('items')?.errors?.['required']) {
-                        <span class="control-error">Items is required!</span>
+                <label for="quantity">Quantity</label>
+                <input type="text" name="quantity" id="quantity" placeholder="Items In-Stock" formControlName="quantity">
+                 @if (isInvalid('quantity')) {
+                    @if (inventoryForm.get('quantity')?.errors?.['required']) {
+                        <span class="control-error">Quantity is required!</span>
                     }
                 }
             </div>
@@ -75,12 +75,12 @@
 
         <div class="form-group">
             <div class="action-controls">
-                <button class="save">{{ !isEditMode() ? 'Save' : 'Update' }}</button>
+                <button type="submit" class="save">{{ !isEditMode() ? 'Save' : 'Update Inventory' }}</button>
                 @if (inventoryForm.dirty && !isEditMode()) {
                     <button type="reset" class="reset">Reset</button>
                 }
             </div>
 
         </div>
-    </form>
+    </form>    
 </section>
