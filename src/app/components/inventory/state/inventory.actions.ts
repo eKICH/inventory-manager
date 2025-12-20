@@ -27,6 +27,11 @@ export const createInventorySuccess = createAction(
     '[Inventory] Create Inventory Success',
     props<{item: _Inventory}>()
 );
+
+export const createInventoryFailure = createAction(
+    '[Inventory] Create Inventory Failure',
+    props<{error: string}>()
+);
 // End Creating
 
 // Updating
@@ -38,6 +43,11 @@ export const updateInventory = createAction(
 export const updateInventorySuccess = createAction(
     '[Inventory] Update Inventory Success',
     props<{item: _Inventory}>()
+);
+
+export const updateInventoryFailure = createAction(
+    '[Inventory] Update Inventory Failure',
+    props<{error: string}>()
 );
 // End Updating
 

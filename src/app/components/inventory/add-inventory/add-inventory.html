@@ -49,7 +49,7 @@
 
             <div class="form-control">
                 <label for="price">Price</label>
-                <input type="text" name="price" id="price" placeholder="Product Price" formControlName="price">
+                <input type="number" name="price" id="price" placeholder="Product Price" formControlName="price">
                  @if (isInvalid('price')) {
                     @if (inventoryForm.get('price')?.errors?.['required']) {
                         <span class="control-error">Price is required!</span>
@@ -59,12 +59,12 @@
 
             <div class="form-control">
                 <label for="discount">Discount</label>
-                <input type="text" name="discount" id="discount" placeholder="Product Discount" formControlName="discount">
+                <input type="number" name="discount" id="discount" placeholder="Product Discount" formControlName="discount">
             </div>
 
             <div class="form-control">
                 <label for="quantity">Quantity</label>
-                <input type="text" name="quantity" id="quantity" placeholder="Items In-Stock" formControlName="quantity">
+                <input type="number" name="quantity" id="quantity" placeholder="Items In-Stock" formControlName="quantity">
                  @if (isInvalid('quantity')) {
                     @if (inventoryForm.get('quantity')?.errors?.['required']) {
                         <span class="control-error">Quantity is required!</span>
@@ -75,7 +75,7 @@
 
         <div class="form-group">
             <div class="action-controls">
-                <button type="submit" class="save">{{ !isEditMode() ? 'Save' : 'Update Inventory' }}</button>
+                <button class="save">{{ !isEditMode() ? 'Save' : 'Update Inventory' }}</button>
                 @if (inventoryForm.dirty && !isEditMode()) {
                     <button type="reset" class="reset">Reset</button>
                 }

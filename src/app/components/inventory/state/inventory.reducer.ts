@@ -36,12 +36,24 @@ export const inventoryReducer = createReducer(
         loading: false
     })),
 
+    on(inventoryActions.createInventoryFailure, (state, { error }) => ({
+        ...state,
+        loading: false,
+        error
+    })),
+
     on(inventoryActions.updateInventorySuccess, (state, { item }) => ({
         ...state,
         inventory: state.inventory.map(i => 
             i.id === item.id ? item : i
         ),
         loading: false
+    })),
+
+    on(inventoryActions.updateInventoryFailure, (state, { error }) => ({
+        ...state,
+        loading: false,
+        error
     })),
 
     on(inventoryActions.deleteInventory, (state, { id }) => ({

@@ -2,7 +2,6 @@
 @let isLoading = loading$ | async;
 @let error = error$ | async;
 
-
 <section class="inventory-container">
     @if (isLoading) {
     <div>Loading Inventory... </div>
@@ -37,7 +36,7 @@
                     <div class="action">
                         <a (click)="onViewInventory(inv.id!, inv.name!.toLowerCase())">View</a> |
                         <a (click)="onInventoryEdit(inv.id!)">Edit</a> |
-                        <a (click)="onDeleteInventory(inv.id!)">Delete</a>
+                        <a (click)="openDeleteConfirmation(inv.id!, inv.name)">Delete</a>
                     </div>
                 </td>
             </tr>
@@ -47,7 +46,9 @@
     </div>
     } @else if (!isLoading && !error) {
         <p>No inventory are available at this time..</p>
-    }
-
-    
+    } 
 </section>
+
+@if (showConfirmation()) {
+    <app-confirmation (cancel)="closeConfirmation()" (confirm)="confirmDelete()" [inventoryId]="selectedInventoryId" [inventoryName]="selectedInventoryName"/>
+}

@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +9,5 @@ import { Component, inject, signal } from '@angular/core';
 export class Header {
   
   title = signal('Inventory Manager');
-
-  
 
 }

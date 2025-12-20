@@ -5,13 +5,14 @@ import { _Inventory } from '../../model/inventory.model';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { InventoryState } from '../state/inventory.state';
+import { Confirmation } from '../../shared/confirmation/confirmation';
 import * as InventorySelectors from '../state/inventory.selectors';
 import * as InventoryActions from '../state/inventory.actions';
 
 
 @Component({
   selector: 'app-list-inventory',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, Confirmation],
   templateUrl: './list-inventory.html',
   styleUrl: './list-inventory.css',
 })
@@ -20,6 +21,9 @@ export class ListInventory implements OnInit {
   private store = inject(Store<InventoryState>)
 
   private route: Router = inject(Router);
+  showConfirmation = signal<boolean>(false);
+  selectedInventoryId: number | null = null;
+  selectedInventoryName: string | null = null;
 
   inventory$: Observable<_Inventory[]> = this.store.select(InventorySelectors.selectInventory);
   loading$: Observable<boolean> = this.store.select(InventorySelectors.selectInventoryLoading);
@@ -33,20 +37,33 @@ export class ListInventory implements OnInit {
   }
 
   onViewInventory( id: number, name: string ) {
-    console.log(id);
     this.route.navigate([`/${id}/${name}`]);
   }
 
   onInventoryEdit(id: number) {
-    console.log("edit clicked!")
     this.route.navigate([`/${id}/edit-inventory`]);
   }
 
-  onDeleteInventory(id: number) {
-    if (!confirm('Are you sure you want to delete this item?')) {
-      return;
-    }
-    this.store.dispatch(InventoryActions.deleteInventory({ id }));
+  openDeleteConfirmation(id: number, name: string){
+
+    this.selectedInventoryId = id;
+    this.selectedInventoryName = name;
+    this.showConfirmation.set(true);
+
+  }
+
+  confirmDelete() {
+    
+    if (!this.selectedInventoryId) return;
+
+    this.store.dispatch(InventoryActions.deleteInventory({ id: this.selectedInventoryId }));
+    this.closeConfirmation();
+
+  }
+
+  closeConfirmation(): void {
+    this.showConfirmation.set(false);
+    this.selectedInventoryId = null;
   }
 
 }

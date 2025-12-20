@@ -26,6 +26,7 @@ export class AddInventory implements OnInit {
   inventory$: Observable<_Inventory[]> = this.store.select(InventorySelectors.selectInventory);
 
   submitted = signal(false);
+
   invId = toSignal(
     this.activatedRoute.paramMap.pipe(
       map(params => params.get('id'))
@@ -41,7 +42,11 @@ export class AddInventory implements OnInit {
   ngOnInit(): void {
     this.inventoryFormControls();
     this.loadInventoryForEdit();
-    this.store.dispatch(inventoryActions.loadInventory());
+
+    if (this.isEditMode()) {
+      this.store.dispatch(inventoryActions.loadInventory());
+    }
+    
   }
 
   private loadInventoryForEdit(): void {
@@ -72,7 +77,6 @@ export class AddInventory implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.inventoryForm.value);
     this.submitted.set(true);
 
     if (this.inventoryForm.invalid) return;
@@ -84,7 +88,7 @@ export class AddInventory implements OnInit {
       id: this.invId ?? undefined!
     };
 
-    if (!this.isEditMode) {
+    if (!this.isEditMode()) {
 
       this.store.dispatch(
         inventoryActions.createInventory({ item })

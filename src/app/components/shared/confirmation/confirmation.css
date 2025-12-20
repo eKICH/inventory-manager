@@ -1,0 +1,64 @@
+.confirmation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.confirmation {
+    background: #fff;
+    padding: 0.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+    height: fit-content;
+}
+
+header {
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #aea3a3;
+}
+
+header h3 {
+    font-weight: 400;
+    font-size: medium;
+}
+
+p {
+    font-weight: 100;
+    margin: 20px 0;
+    text-align: center;
+}
+
+footer {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+footer button{
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.no {
+    background-color: #000;
+    color: #fff;
+}
+
+.yes {
+    background-color: red;
+    color: #fff;
+}

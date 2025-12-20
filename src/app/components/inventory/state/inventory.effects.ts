@@ -1,8 +1,10 @@
 import { inject, Injectable } from "@angular/core";
-import * as InventoryActions from './inventory.actions';
 import { _Inventory } from "../../model/inventory.model";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { catchError, map, of } from "rxjs";
+import { catchError, map, of, tap } from "rxjs";
+import { ToastService } from "../../services/toast";
+
+import * as InventoryActions from './inventory.actions';
 
 const MOCK_INVENTORY: _Inventory[] = [
     {
@@ -34,6 +36,7 @@ const MOCK_INVENTORY: _Inventory[] = [
 export class InventoryEffects {
 
     private actions$ = inject(Actions);
+    private toast = inject(ToastService);
 
     loadInventory$ = createEffect(() => 
 
@@ -43,6 +46,19 @@ export class InventoryEffects {
             map(() => InventoryActions.loadInventorySuccess({inventory: MOCK_INVENTORY}))
         )
     );
+
+    loadInventoryFailure$ = createEffect(() => 
+
+        this.actions$.pipe(
+            ofType(InventoryActions.loadInventoryFailure),
+            tap(({error}) => {
+                this.toast.showError(error);
+            })
+        ),
+        { dispatch: false }
+    );
+
+    
 
     createInventory$ = createEffect(() => 
 
@@ -54,6 +70,28 @@ export class InventoryEffects {
         )
     );
 
+    createInventorySuccess$ = createEffect(() =>
+
+        this.actions$.pipe(
+            ofType(InventoryActions.createInventorySuccess),
+            tap(() => {
+                this.toast.showSuccess('Inventory Created Successfully!');
+            })
+        ),
+        { dispatch: false }
+    );
+
+    createInventoryFailure$ = createEffect(() =>
+
+        this.actions$.pipe(
+            ofType(InventoryActions.createInventoryFailure),
+            tap(({error}) => {
+                this.toast.showError(error);
+            })
+        ),
+        { dispatch: false }
+    );
+
     updateInventory$ = createEffect(() => 
         this.actions$.pipe(
             ofType(InventoryActions.updateInventory),
@@ -61,11 +99,55 @@ export class InventoryEffects {
         )
     );
 
+    updateInventorySuccess$ = createEffect(() =>
+
+        this.actions$.pipe(
+            ofType(InventoryActions.updateInventorySuccess),
+            tap(() => {
+                this.toast.showSuccess('Inventory Updated Successfully!');
+            })
+        ),
+        { dispatch: false }
+    );
+
+    updateInventoryFailure$ = createEffect(() =>
+
+        this.actions$.pipe(
+            ofType(InventoryActions.updateInventoryFailure),
+            tap(({error}) => {
+                this.toast.showError(error);
+            })
+        ),
+        { dispatch: false }
+    );
+
     deleteInventory$ = createEffect(() =>
         this.actions$.pipe(
             ofType(InventoryActions.deleteInventory),
             map(({id}) => InventoryActions.deleteInventorySuccess({ id }))
         )
+    );
+
+    deleteInventorySuccess$ = createEffect(() =>
+
+        this.actions$.pipe(
+            ofType(InventoryActions.deleteInventorySuccess),
+            tap(() => {
+                this.toast.showSuccess('Inventory Deleted Successfully!');
+            })
+        ),
+        { dispatch: false }
+    );
+
+    deleteInventoryFailure$ = createEffect(() =>
+
+        this.actions$.pipe(
+            ofType(InventoryActions.deleteInventorFailure),
+            tap(({error}) => {
+                this.toast.showError(error);
+            })
+        ),
+        { dispatch: false }
     );
 
 }
