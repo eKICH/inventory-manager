@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, DatePipe } from '@angular/common';
 import { _Inventory } from '../../model/inventory.model';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -12,7 +12,7 @@ import * as InventoryActions from '../state/inventory.actions';
 
 @Component({
   selector: 'app-list-inventory',
-  imports: [AsyncPipe, Confirmation],
+  imports: [AsyncPipe, DatePipe, CurrencyPipe, Confirmation],
   templateUrl: './list-inventory.html',
   styleUrl: './list-inventory.css',
 })
@@ -22,7 +22,7 @@ export class ListInventory implements OnInit {
 
   private route: Router = inject(Router);
   showConfirmation = signal<boolean>(false);
-  selectedInventoryId: number | null = null;
+  selectedInventoryId: string | null = null;
   selectedInventoryName: string | null = null;
 
   inventory$: Observable<_Inventory[]> = this.store.select(InventorySelectors.selectInventory);
@@ -36,15 +36,15 @@ export class ListInventory implements OnInit {
 
   }
 
-  onViewInventory( id: number, name: string ) {
+  onViewInventory( id: string, name: string ) {
     this.route.navigate([`/${id}/${name}`]);
   }
 
-  onInventoryEdit(id: number) {
+  onInventoryEdit(id: string) {
     this.route.navigate([`/${id}/edit-inventory`]);
   }
 
-  openDeleteConfirmation(id: number, name: string){
+  openDeleteConfirmation(id: string, name: string){
 
     this.selectedInventoryId = id;
     this.selectedInventoryName = name;

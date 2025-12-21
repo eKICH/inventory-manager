@@ -1,6 +1,6 @@
 export interface _Inventory {
 
-    id?: number;
+    id: string;
     createAt?: string;
     name: string;
     description: string;

@@ -8,7 +8,7 @@ import { RouterLink } from "@angular/router";
   styleUrl: './confirmation.css',
 })
 export class Confirmation {
-  inventoryId = input<number | null>(null);
+  inventoryId = input<string | null>(null);
   inventoryName = input<string | null>(null);
 
   cancel = output<void>();

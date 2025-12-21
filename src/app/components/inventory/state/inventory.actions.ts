@@ -54,12 +54,12 @@ export const updateInventoryFailure = createAction(
 // Deleting
 export const deleteInventory = createAction(
     '[Inventory] Deleting Inventory',
-    props<{ id: number}>()
+    props<{ id: string}>()
 );
 
 export const deleteInventorySuccess = createAction(
     '[Inventory] Delete Inventory Success',
-    props<{ id: number}>()
+    props<{ id: string}>()
 );
 
 export const deleteInventorFailure = createAction(

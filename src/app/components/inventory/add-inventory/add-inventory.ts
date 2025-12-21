@@ -83,21 +83,30 @@ export class AddInventory implements OnInit {
 
     const formValue = this.inventoryForm.value;
 
-    const item: _Inventory = {
-      ...formValue,
-      id: this.invId ?? undefined!
-    };
+    let item: _Inventory;
 
     if (!this.isEditMode()) {
 
+      item = {
+        id: '',
+        createAt: new Date().toISOString(),
+        ...formValue
+      }
+
       this.store.dispatch(
-        inventoryActions.createInventory({ item })
+        inventoryActions.createInventory({ item: item })
       )
 
 
     } else {
+
+      item = {
+        id: this.invId()!,
+        ...formValue
+      }
+
       this.store.dispatch(
-        inventoryActions.updateInventory({ item })
+        inventoryActions.updateInventory({ item: item })
       )
 
     }

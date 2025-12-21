@@ -3,6 +3,7 @@
 @let error = error$ | async;
 
 <section class="inventory-container">
+
     @if (isLoading) {
     <div>Loading Inventory... </div>
     }
@@ -11,8 +12,9 @@
     <div>Error: {{error}} </div>
     }
 
-    @if (inventory && !isLoading && !error) {
-        <div class="grid">
+
+    <div class="grid">
+        @if (inventory?.length && !isLoading && !error) {
         <table class="inventory">
             <thead>
                 <th>Create Date</th>
@@ -26,12 +28,12 @@
 
             @for (inv of inventory; track inv.id) {
             <tr>
-                <td>{{ inv.createAt }}</td>
+                <td>{{ inv.createAt | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
                 <td>{{ inv.name }}</td>
                 <td>{{ inv.description }}</td>
                 <td>{{ inv.category }}</td>
                 <td>{{ inv.status }}</td>
-                <td>{{ inv.price }}</td>
+                <td>{{ inv.price | currency }}</td>
                 <td>
                     <div class="action">
                         <a (click)="onViewInventory(inv.id!, inv.name!.toLowerCase())">View</a> |
@@ -41,14 +43,17 @@
                 </td>
             </tr>
             }
-
         </table>
+
+        }
+        @else if(!inventory?.length && !isLoading && !error) {
+        <p>No inventory is available at this time..</p>
+        }
     </div>
-    } @else if (!isLoading && !error) {
-        <p>No inventory are available at this time..</p>
-    } 
+
 </section>
 
 @if (showConfirmation()) {
-    <app-confirmation (cancel)="closeConfirmation()" (confirm)="confirmDelete()" [inventoryId]="selectedInventoryId" [inventoryName]="selectedInventoryName"/>
+<app-confirmation (cancel)="closeConfirmation()" (confirm)="confirmDelete()" [inventoryId]="selectedInventoryId"
+    [inventoryName]="selectedInventoryName" />
 }

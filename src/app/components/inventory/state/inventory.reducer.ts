@@ -66,7 +66,7 @@ export const inventoryReducer = createReducer(
     on(inventoryActions.deleteInventorySuccess, (state, { id }) =>({
         ...state,
         inventory: state.inventory.filter(
-            item => item.id !== id
+            item => item.id !== id.toString()
         ),
         loading: false
     })),

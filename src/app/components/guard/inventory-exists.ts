@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, Router} from "@angular/router";
+import { ActivatedRouteSnapshot, CanActivate, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { InventoryState } from "../inventory/state/inventory.state";
 
@@ -9,9 +9,9 @@ import { filter, map, of, switchMap, take, tap } from "rxjs";
 import { ToastService } from "../services/toast";
 import { slugify } from "../util/slug";
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 
-export class InventoryExistsGuard implements CanActivate{
+export class InventoryExistsGuard implements CanActivate {
 
     private router = inject(Router);
     private store = inject(Store<InventoryState>);
@@ -51,14 +51,17 @@ export class InventoryExistsGuard implements CanActivate{
                         return false;
                     }
 
-                    const correctSlug = slugify(item.name);
+                    if (name) {
 
-                    if (name !== correctSlug) {
-                        this.router.navigate(
-                            ['/', item.id, correctSlug],
-                            {replaceUrl: true}
-                        );
-                        return false;
+                        const correctSlug = slugify(item.name);
+
+                        if (name !== correctSlug) {
+                            this.router.navigate(
+                                ['/', item.id, correctSlug],
+                                { replaceUrl: true }
+                            );
+                            return false;
+                        }
                     }
 
                     return true;
