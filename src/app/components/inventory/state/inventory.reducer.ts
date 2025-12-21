@@ -16,12 +16,14 @@ export const inventoryReducer = createReducer(
     on(inventoryActions.loadInventorySuccess, (state, { inventory }) => ({
         ...state,
         inventory,
-        loading: false
+        loading: false,
+        loaded: true
     })),
 
     on(inventoryActions.loadInventoryFailure, (state, { error }) => ({
         ...state,
         loading: false,
+        loaded: false,
         error
     })),
 
