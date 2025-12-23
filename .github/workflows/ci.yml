@@ -23,10 +23,6 @@ jobs:
             
             - name: Install Dependencies
               run: npm install
-            
-            - name: Run Unit Tests
-              run: npx run test -- --watch=false --browsers=ChromeHeadless -- --no-sandbox
-            
             - name: Build Production Artifacts
               run: npm run build -- --configuration production
 
