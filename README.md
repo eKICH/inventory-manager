@@ -1,5 +1,8 @@
 # Inventory Manager
 
+[![Live Demo](https://img.shields.io/badge/demo-online-brightgreen)](https://inventory-manager-beige-eight.vercel.app/inventory)
+[![CI](https://github.com/eKICH/inventory-manager/actions/workflows/ci.yml/badge.svg)](https://github.com/eKICH/inventory-manager/actions/workflows/ci.yml)
+
 Inventory Manager is a production-grade inventory management application built with Angular Signals, NgRx, and Firebase.
 The project demonstrates modern Angular architecture, predictable state management, and real-world UX patterns such as route guarding, 
 confirmation workflows, and user feedback.
@@ -98,6 +101,11 @@ Example behavior:
 - SEO-friendly and normalized URLs
 
 These decisions reflect real-world UX requirements.
+
+# 🌐 Live Demo
+
+Check out the deployed app: [Inventory Manager Live](https://inventory-manager-beige-eight.vercel.app/inventory)  
+All features — create, edit, delete, and view inventory — are fully functional.
 
 # Environment Configuration
 Angular environment file replacement is used.
