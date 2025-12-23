@@ -1,4 +1,5 @@
 export const environment = {
+  production: false,
     firebase: {
     apiKey: 'AIzaSyDNfkMp0A4YuHjmhp7YNeUtqBi67023yng',
     authDomain: 'inventory-manager-acb12.firebaseapp.com',

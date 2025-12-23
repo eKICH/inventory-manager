@@ -1,59 +1,148 @@
-# InventoryManager
+# Inventory Manager
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.4.
+Inventory Manager is a production-grade inventory management application built with Angular Signals, NgRx, and Firebase.
+The project demonstrates modern Angular architecture, predictable state management, and real-world UX patterns such as route guarding, 
+confirmation workflows, and user feedback.
 
-## Development server
+This application was designed to mirror how enterprise Angular applications are structured and maintained.
 
-To start a local development server, run:
+# Key Features
+- Full CRUD inventory management
+- Modern Angular Signals for reactive local state
+- NgRx Store & Effects for global state orchestration
+- Firebase-backed persistence layer
+- Guarded and normalized routes
+- User feedback via toast notifications
+- Confirmation flows for destructive actions
+- Environment-based configuration (dev / prod)
 
-```bash
-ng serve
+# Technology Stack
+- Angular 20+
+- Angular Signals
+- NgRx (Store, Effects, Selectors)
+- Firebase Firestore
+- RxJS
+- TypeScript
+- Standalone Components
+
+# Architecture Overview
+The application follows a scalable, enterprise-style architecture:
+
+**Presentation Components**
+- Handle forms, routing, and UI interactions
+- No direct API access
+
+**NgRx Store**
+- Single source of truth for inventory data
+- Handles loading, success, and error states
+
+**NgRx Effects**
+- Isolate side effects and Firebase interactions
+- Dispatch success/failure actions
+- Trigger user notifications
+
+**Angular Signals**
+- Manage route-driven state (e.g., edit mode)
+- Eliminate unnecessary subscriptions
+- Provide clean derived state
+
+**Firebase Backend**
+- Firestore as the persistence layer
+- Numeric ID generation via counter document
+- Server-side timestamps for creation dates
+
+# State Management Strategy
+This project intentionally combines NgRx and Angular Signals:
+
+**NgRx is used for:**
+- Inventory collection state
+- API communication
+- Side effects and error handling
+
+**Signals are used for:**
+- Local UI state
+- Route-based state (```isEditMode```)
+- Derived values without RxJS subscriptions
+
+This hybrid approach balances predictability with simplicity.
+
+
+# Routing & Guards
+
+**Routes**
+| Route | Description |
+| :--- | :--- |
+| ```/inventory``` | Inventory list
+| ```/add-inventory``` | Create Inventory
+| ```/:id/:name``` | View Inventory
+| ```/:id/edit-inventory``` | Edit Inventory
+
+# Route Protection
+Routes are guarded using ```InventoryExistsGuard```:
+- Prevents access to non-existent inventory items
+- Automatically loads inventory if not present in the store
+- Normalizes URLs using slugified names
+- Redirects invalid routes with user feedback
+Example behavior:
+
+```
+/10/jiksu-motor → Redirects to /inventory with error message
+
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+# User Experience Considerations
+- Toast notifications for all create/update/delete operations
+- Confirmation modal before deletion
+- Disabled submission during processing
+- Clear loading and error states
+- SEO-friendly and normalized URLs
 
-## Code scaffolding
+These decisions reflect real-world UX requirements.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+# Environment Configuration
+Angular environment file replacement is used.
 
-```bash
-ng generate component component-name
+```
+src/environments/
+├── environment.ts
+└── environment.prod.ts
+
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Both files export the same configuration shape and contain Firebase credentials.
 
-```bash
-ng generate --help
+# Firebase Integration
+- Firestore is used as the database
+- Inventory items stored as documents
+- Numeric IDs generated via a counter document
+- Server timestamps used for creation dates
+- Architecture allows easy migration to Firebase Realtime Database
+
+No custom REST API is required.
+
+# What This Project Demonstrates
+- Advanced Angular Signals usage
+- Clean NgRx architecture with effects
+- Route guard-driven data validation
+- Firebase integration in a real application
+- Separation of concerns
+- Production-ready UX patterns
+
+# Author Notes
+This project was built to reflect real-world Angular application patterns, focusing on maintainability, 
+scalability, and user experience rather than quick demos.
+
+# Running the Project
+
+**Install dependencies**
+```
+npm install
+
 ```
 
-## Building
+**Start development server**
+```
+ng serve → Navigate to http://localhost:4200
 
-To build the project run:
-
-```bash
-ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
